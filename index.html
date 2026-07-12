@@ -3,8 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Venqia — Nordic acquisition &amp; conversion for fintech verticals</title>
+<title>Venqia — Nordic acquisition for fintech verticals</title>
 <meta name="description" content="Venqia builds and operates acquisition brands for trading, iGaming, loans and selected fintech verticals — refining Nordic traffic into higher-intent, partner-ready relationships.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://venqia.com">
+<meta property="og:title" content="Venqia — Nordic acquisition for fintech verticals">
+<meta property="og:description" content="Venqia builds and operates acquisition brands for trading, iGaming, loans and selected fintech verticals — refining Nordic traffic into higher-intent, partner-ready relationships.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://venqia.com">
+<meta property="og:site_name" content="Venqia">
+<meta property="og:image" content="https://venqia.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Venqia — Nordic acquisition for fintech verticals">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Venqia — Nordic acquisition for fintech verticals">
+<meta name="twitter:description" content="Venqia builds and operates acquisition brands for trading, iGaming, loans and selected fintech verticals — refining Nordic traffic into higher-intent, partner-ready relationships.">
+<meta name="twitter:image" content="https://venqia.com/og-image.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.svg">
 <style>
   :root{
     --paper:#FAF9F5;
@@ -340,6 +357,38 @@
     transition:color .18s,border-color .18s;
   }
   .contact .email:hover{color:var(--green);border-color:var(--green)}
+  .contact-form{max-width:620px;margin-top:34px}
+  .contact-form .field{display:block;margin-bottom:18px}
+  .contact-form label{
+    display:block;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--soft);
+    margin-bottom:8px;
+  }
+  .contact-form input,
+  .contact-form textarea{
+    width:100%;
+    font:inherit;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line);
+    padding:14px 16px;
+  }
+  .contact-form textarea{min-height:150px;resize:vertical}
+  .contact-form .btn{margin-top:8px}
+  .backup-email{
+    margin-top:22px;
+    color:var(--grey);
+    font-size:15px;
+  }
+  .backup-email a{
+    border-bottom:1px solid var(--line);
+    transition:color .18s,border-color .18s;
+  }
+  .backup-email a:hover{color:var(--green);border-color:var(--green)}
 
   /* ---------- footer ---------- */
   footer{background:var(--ink);color:#A7B0A0;padding:64px 0 48px}
@@ -574,14 +623,24 @@
   <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="wrap">
-      <h2>Let's build the Nordic acquisition layer <span class="em">around your vertical.</span></h2>
-      <p class="lead">If you operate in trading, iGaming, loans or selected fintech verticals and need higher-intent Nordic acquisition, we can explore whether there is a fit.</p>
-      <div>
-        <a class="email" href="mailto:partnerships@venqia.com">partnerships@venqia.com</a>
-      </div>
-      <div>
-        <a class="btn" href="mailto:partnerships@venqia.com">Contact partnerships <i>→</i></a>
-      </div>
+      <h2>Explore a partnership</h2>
+      <p class="lead">For acquisition, qualification or partner handoff discussions, send a short note and we'll respond directly.</p>
+      <form class="contact-form" action="mailto:partnerships@venqia.com" method="post" enctype="text/plain">
+        <div class="field">
+          <label for="partner-name">Name</label>
+          <input id="partner-name" name="Name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="partner-email">Email</label>
+          <input id="partner-email" name="Email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="partner-message">Message</label>
+          <textarea id="partner-message" name="Message" required></textarea>
+        </div>
+        <button class="btn" type="submit">Send partnership inquiry <i>→</i></button>
+      </form>
+      <p class="backup-email">Prefer email? <a href="mailto:partnerships@venqia.com">partnerships@venqia.com</a></p>
     </div>
   </section>
 
