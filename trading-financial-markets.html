@@ -13,6 +13,13 @@
 <meta property="og:url" content="https://venqia.com/trading-financial-markets.html">
 <meta property="og:site_name" content="Venqia">
 <meta property="og:image" content="https://venqia.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Trading and financial markets acquisition page by Venqia">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trading &amp; financial markets — Venqia">
+<meta name="twitter:description" content="Education-led Nordic acquisition, Swedish-language qualification and partner-ready handoff for trading and financial-market partners.">
+<meta name="twitter:image" content="https://venqia.com/og-image.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
 <style>
@@ -96,7 +103,7 @@
   @media(max-width:640px){.hero{padding:84px 0 58px}}
   .hero-grid{display:grid;gap:48px}
   @media(min-width:980px){.hero-grid{grid-template-columns:1.1fr .9fr;gap:72px;align-items:end}}
-  .hero p{max-width:680px;margin-top:28px}
+  .hero p{max-width:62ch;margin-top:24px}
   .hero-actions{display:flex;gap:26px;flex-wrap:wrap;margin-top:36px}
 
   .flow-visual{
@@ -124,7 +131,7 @@
 
   .section{padding:102px 0;border-top:1px solid var(--line)}
   .section-head{max-width:760px;margin-bottom:40px}
-  .section-head p{margin-top:20px;color:var(--grey)}
+  .section-head p{margin-top:18px;color:var(--grey);max-width:62ch}
   @media(max-width:768px){.section{padding:82px 0}}
 
   .steps{display:grid;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -301,7 +308,7 @@
         <span class="mono">Trading vertical</span>
         <h1>Trading &amp; financial <span class="em">markets.</span></h1>
         <p class="lead">Education-led acquisition, Swedish-language qualification and partner-ready handoff for trading and financial-market partners.</p>
-        <p>Venqia builds the layer between raw traffic and partner conversion - introducing market understanding, qualifying readiness and routing Nordic users toward the right next step.</p>
+        <p>Venqia operates the layer between raw traffic and partner conversion: market understanding, readiness qualification and partner-ready routing for Nordic users.</p>
         <div class="hero-actions">
           <a class="btn" href="#contact">Discuss trading acquisition <i>→</i></a>
           <a class="textlink" href="#model">View operating model</a>
@@ -336,7 +343,7 @@
           <span class="num">02</span>
           <div>
             <h3>Education-led conversion</h3>
-            <p>Users are introduced to market concepts, risk awareness, platform expectations and next steps through calls, content and structured communication.</p>
+            <p>Users are introduced to market concepts, risk awareness and platform expectations through clear content and structured communication.</p>
           </div>
         </article>
         <article class="step">
@@ -350,7 +357,7 @@
           <span class="num">04</span>
           <div>
             <h3>Scoring &amp; routing</h3>
-            <p>Leads are scored by intent, contactability, language, experience, readiness and commercial relevance before handoff.</p>
+            <p>Leads are scored by intent, contactability, language, experience, readiness and commercial fit before handoff.</p>
           </div>
         </article>
         <article class="step">
@@ -385,7 +392,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2>Built around source clarity and <span class="em">partner fit.</span></h2>
-        <p>The operating stack is structured for practical execution, clean context and partner-specific routing decisions.</p>
+        <p>The operating stack is built for practical execution, clean context and partner-specific routing.</p>
       </div>
       <ul class="infra-list" aria-label="Acquisition infrastructure">
         <li><span class="sym sym-network" aria-hidden="true"></span>acquisition brands</li>
@@ -405,7 +412,7 @@
   <section class="section relationship" id="relationship">
     <div class="wrap copy">
       <h2 class="relation-title">Swedish-language continuity, where needed. <span class="heading-flag" aria-hidden="true"><span class="flag-pill flag-se"></span></span></h2>
-      <p>Where agreed with the partner, Venqia can support local-language follow-up, education-led engagement and relationship continuity after handoff.</p>
+      <p>Where agreed with the partner, Venqia can support local-language follow-up, education-led engagement and continuity after handoff.</p>
       <p class="boundary-note">Regulated services, execution, liquidity and client funds remain with the authorized partner.</p>
     </div>
   </section>
@@ -475,29 +482,50 @@
       var formStatus = document.getElementById('formStatus');
       var formSuccess = document.getElementById('formSuccess');
       var defaultBtnText = 'Send trading partnership inquiry';
+      var submitInFlight = false;
 
       partnerForm.addEventListener('submit', function(event){
         event.preventDefault();
 
+        if(submitInFlight){
+          return;
+        }
+
         var formData = new FormData(partnerForm);
+        var name = String(formData.get('Name') || '').trim();
+        var email = String(formData.get('Email') || '').trim();
+        var message = String(formData.get('Message') || '').trim();
+
+        if(!name || !email || !message){
+          if(formStatus) formStatus.textContent = 'Please complete all fields before submitting.';
+          return;
+        }
+
         var payload = {
           source: 'Venqia trading vertical page',
           formType: 'Trading partnership inquiry',
-          name: String(formData.get('Name') || ''),
-          email: String(formData.get('Email') || ''),
-          message: String(formData.get('Message') || ''),
+          name: name,
+          email: email,
+          message: message,
           pageUrl: window.location.href,
           submittedAt: new Date().toISOString()
         };
 
+        submitInFlight = true;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending...';
         if(formStatus) formStatus.textContent = '';
 
+        var controller = new AbortController();
+        var timeoutId = window.setTimeout(function(){
+          controller.abort();
+        }, 12000);
+
         fetch('https://services.leadconnectorhq.com/hooks/4FNoL5qzSOQJXLKpQqij/webhook-trigger/8e642f85-647b-4402-bf94-f314bbce1a2c', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          signal: controller.signal
         })
           .then(function(res){
             if(!res.ok) throw new Error('Request failed');
@@ -506,10 +534,16 @@
             if(formSuccess) formSuccess.setAttribute('aria-hidden', 'false');
             partnerForm.reset();
           })
-          .catch(function(){
-            if(formStatus) formStatus.textContent = 'Something went wrong. Please email us directly at partnerships@venqia.com.';
+          .catch(function(err){
+            if(formStatus){
+              formStatus.textContent = err && err.name === 'AbortError'
+                ? 'Request timed out. Please try again or email partnerships@venqia.com.'
+                : 'Something went wrong. Please email us directly at partnerships@venqia.com.';
+            }
           })
           .finally(function(){
+            window.clearTimeout(timeoutId);
+            submitInFlight = false;
             submitBtn.disabled = false;
             submitBtn.textContent = defaultBtnText;
           });

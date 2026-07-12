@@ -267,7 +267,7 @@
   @media(min-width:900px){.trading-grid{grid-template-columns:1.05fr .95fr;gap:110px;align-items:start}}
   .trading .kick{color:var(--brass);letter-spacing:.24em;display:block;margin-bottom:24px}
   .trading h2{max-width:560px}
-  .trading .copy p{margin-top:26px;color:var(--grey)}
+  .trading .copy p{margin-top:22px;color:var(--grey);max-width:62ch}
   .ledger{border-top:1px solid var(--ink)}
   .ledger-group{padding:26px 0;border-bottom:1px solid var(--line)}
   .ledger-group:last-child{border-bottom:1px solid var(--ink)}
@@ -497,8 +497,8 @@
     <div class="wrap">
       <h2>We sell results. <span class="em">Not raw volume.</span></h2>
       <div class="cols">
-        <p>For us, a result is not a form fill. It is a better-prepared relationship: right market, right language, higher intent, clearer expectations and a cleaner path into the partner's own onboarding or conversion process.</p>
-        <p>That is what our acquisition brands are built to produce — and what our qualification and conversion-support layers protect. Everything else is just traffic.</p>
+        <p>For us, a result is not a form fill. It is a partner-ready relationship: right market, right language, higher intent and clear expectations.</p>
+        <p>That is the output our acquisition brands produce and our qualification layer protects. Everything else is just traffic.</p>
       </div>
     </div>
   </section>
@@ -512,9 +512,9 @@
       </div>
       <div class="selector">
         <div class="vtabs" role="tablist" aria-label="Verticals">
-          <a class="vtab" role="tab" aria-selected="true" aria-controls="vd-0" id="vt-0" href="trading-financial-markets.html">
+          <button class="vtab" role="tab" aria-selected="true" aria-controls="vd-0" id="vt-0">
             <span class="num">01</span><span class="name">Trading &amp; financial markets</span><span class="arr">→</span>
-          </a>
+          </button>
           <button class="vtab" role="tab" aria-selected="false" aria-controls="vd-1" id="vt-1">
             <span class="num">02</span><span class="name">iGaming</span><span class="arr">→</span>
           </button>
@@ -529,7 +529,8 @@
           <div class="vdetail active" id="vd-0" role="tabpanel" aria-labelledby="vt-0">
             <span class="mono">Vertical 01</span>
             <h3>Education first. Readiness before handoff.</h3>
-            <p>Education-led acquisition, qualification and Swedish-language conversion support for trading and financial-market partners. We help raise intent and prepare users before handoff — while regulated services, platform access and liquidity remain with the partner.</p>
+            <p>Education-led acquisition, qualification and Swedish-language conversion support for trading and financial-market partners. We raise intent before handoff while regulated services remain with the partner.</p>
+            <p style="margin-top:18px;"><a class="textlink" href="trading-financial-markets.html">Open dedicated trading page →</a></p>
             <p class="meta">Education-led <b>·</b> Nordic languages <b>·</b> Conversion support</p>
           </div>
           <div class="vdetail" id="vd-1" role="tabpanel" aria-labelledby="vt-1" hidden>
@@ -561,9 +562,9 @@
       <div class="copy">
         <span class="mono kick">Trading conversion &amp; retention layer</span>
         <h2>Swedish-language conversion support for <span class="em">trading partners.</span></h2>
-        <p>For trading and financial-market partners, Venqia can operate a Swedish or local-language conversion, onboarding-support and retention layer. This can include education-led communication, user readiness, KYC workflow support, onboarding coordination and relationship continuity — where approved by the partner and structured under the partner's framework.</p>
-        <p>Final account approval, regulated services, liquidity, execution and regulatory responsibility remain with the licensed or authorized partner.</p>
-        <p>Nordic users respond to their own language, their own market context and communication that builds understanding before action. That is the layer we run.</p>
+        <p>For trading and financial-market partners, Venqia can operate a Swedish or local-language conversion, onboarding-support and retention layer under partner approval.</p>
+        <p>Final account approval, regulated services, liquidity, execution and regulatory responsibility remain with the licensed partner.</p>
+        <p>Nordic users convert better when communication reflects language, market context and readiness. That is the layer we run.</p>
       </div>
       <div class="ledger">
         <div class="ledger-group op">
@@ -633,7 +634,7 @@
     <div class="wrap">
       <div class="approach-head">
         <h2>Relevance <span class="em">before</span> volume.</h2>
-        <p class="lead">Every relationship is shaped against partner-defined criteria — geography, language, contactability, intent and fit. If the fit is not there, it does not move forward.</p>
+        <p class="lead">Every relationship is shaped against partner-defined criteria: geography, language, contactability, intent and fit. If fit is missing, it does not move forward.</p>
       </div>
       <div class="timeline">
         <div class="trow"><span class="num">01</span><div><span class="t">Define partner criteria</span><small>Market, audience, qualification thresholds and handoff format — agreed before anything goes live.</small></div></div>
@@ -650,7 +651,7 @@
     <div class="wrap">
       <div class="inner">
         <h2>Built around clear boundaries.</h2>
-        <p>Venqia operates acquisition, qualification, conversion-support and handoff layers. Venqia is not a broker, bank, investment adviser, payment institution, gambling operator or regulated financial services provider. Where regulated services are involved, those remain with the licensed or authorized third-party partner.</p>
+        <p>Venqia operates acquisition, qualification, conversion-support and handoff layers. Venqia is not a broker, bank, investment adviser, payment institution, gambling operator or regulated financial-services provider. Regulated services remain with the licensed partner.</p>
         <p>Venqia does not handle client funds, provide investment recommendations, make regulated KYC or account-approval decisions, or operate partner liquidity.</p>
       </div>
     </div>
@@ -660,7 +661,7 @@
   <section class="contact" id="contact">
     <div class="wrap">
       <h2>Explore a partnership</h2>
-      <p class="lead">For acquisition, qualification or partner handoff discussions, send a short note and we'll respond directly.</p>
+      <p class="lead">For acquisition, qualification or handoff discussions, send a short note and we’ll respond directly.</p>
       <form class="contact-form" id="partnerForm">
         <div class="field">
           <label for="partner-name">Name</label>
@@ -755,29 +756,50 @@
       var formStatus = document.getElementById('formStatus');
       var formSuccess = document.getElementById('formSuccess');
       var defaultBtnText = 'Send partnership inquiry';
+      var submitInFlight = false;
 
       partnerForm.addEventListener('submit', function(event){
         event.preventDefault();
 
+        if(submitInFlight){
+          return;
+        }
+
         var formData = new FormData(partnerForm);
+        var name = String(formData.get('Name') || '').trim();
+        var email = String(formData.get('Email') || '').trim();
+        var message = String(formData.get('Message') || '').trim();
+
+        if(!name || !email || !message){
+          if(formStatus) formStatus.textContent = 'Please complete all fields before submitting.';
+          return;
+        }
+
         var payload = {
           source: 'Venqia website',
           formType: 'Partner inquiry',
-          name: String(formData.get('Name') || ''),
-          email: String(formData.get('Email') || ''),
-          message: String(formData.get('Message') || ''),
+          name: name,
+          email: email,
+          message: message,
           pageUrl: window.location.href,
           submittedAt: new Date().toISOString()
         };
 
+        submitInFlight = true;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending...';
         if(formStatus) formStatus.textContent = '';
 
+        var controller = new AbortController();
+        var timeoutId = window.setTimeout(function(){
+          controller.abort();
+        }, 12000);
+
         fetch('https://services.leadconnectorhq.com/hooks/4FNoL5qzSOQJXLKpQqij/webhook-trigger/8e642f85-647b-4402-bf94-f314bbce1a2c', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          signal: controller.signal
         })
           .then(function(res){
             if(!res.ok) throw new Error('Request failed');
@@ -786,10 +808,16 @@
             if(formSuccess) formSuccess.setAttribute('aria-hidden', 'false');
             partnerForm.reset();
           })
-          .catch(function(){
-            if(formStatus) formStatus.textContent = 'Something went wrong. Please email us directly at partnerships@venqia.com.';
+          .catch(function(err){
+            if(formStatus){
+              formStatus.textContent = err && err.name === 'AbortError'
+                ? 'Request timed out. Please try again or email partnerships@venqia.com.'
+                : 'Something went wrong. Please email us directly at partnerships@venqia.com.';
+            }
           })
           .finally(function(){
+            window.clearTimeout(timeoutId);
+            submitInFlight = false;
             submitBtn.disabled = false;
             submitBtn.textContent = defaultBtnText;
           });
