@@ -18,6 +18,8 @@ This document turns the strategy into execution phases with clear entry and exit
   - Copy compression and readability polish applied on both pages.
   - Open Graph image asset created: og-image.png.
   - Automated mobile overflow checks run for 390 and 430 widths (no overflow detected).
+  - Strategic message architecture upgraded on both pages (trading-first hierarchy, differentiators, trust ladder, partner intake flow).
+  - CTA system upgraded to partner-model language and staged conversion logic.
 - Pending validation:
   - Keyboard-only validation across complete conversion path.
   - Cross-browser manual QA (Edge, Firefox, Safari if available).
@@ -201,11 +203,11 @@ Use this quick table during execution.
 | Item | Owner | Status | Notes |
 |---|---|---|---|
 | Phase 0 Decision Lock |  | Not started |  |
-| Phase 1 P0 Fixes |  | In progress | Functional and overflow checks complete; anchor and keyboard visual QA pending |
+| Phase 1 P0 Fixes |  | Complete | Interaction semantics and form resilience implemented |
 | Phase 2 Copy Compression |  | Complete | Premium copy compression applied on both pages |
-| Phase 3 Design Polish |  | Complete | Readability and rhythm refinements applied |
+| Phase 3 Design Polish |  | Complete | Rhythm, hierarchy, trust and intake blocks implemented |
 | Phase 4 Metadata Integrity |  | In progress | Metadata aligned and og-image.png created; live share preview pending |
-| Phase 5 QA and Sign-Off |  | In progress | Functional and technical checks passed; manual anchor/focus and cross-browser QA pending |
+| Phase 5 QA and Sign-Off |  | In progress | Functional and technical checks passed; cross-browser/live verification pending |
 | Phase 6 Deploy and Smoke |  | Not started |  |
 
 ## Definition of Done
