@@ -379,6 +379,42 @@
   }
   .contact-form textarea{min-height:150px;resize:vertical}
   .contact-form .btn{margin-top:8px}
+  .form-status{margin-top:12px;font-size:14px;color:var(--grey)}
+  .form-status:empty{display:none}
+  .form-success{
+    display:none;
+    max-width:620px;
+    margin-top:34px;
+    padding:30px 28px;
+    background:#fff;
+    border:1px solid var(--line);
+  }
+  .form-success .icon{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:rgba(14,77,58,.1);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:16px;
+  }
+  .form-success .icon svg{width:26px;height:26px;display:block}
+  .form-success h3{
+    font-weight:750;
+    letter-spacing:-0.02em;
+    line-height:1.2;
+    font-size:clamp(24px,3.2vw,34px);
+    margin:0;
+    color:var(--ink);
+  }
+  .form-success p{
+    margin-top:10px;
+    color:var(--grey);
+    font-size:17px;
+  }
+  .contact.contact-success .contact-form{display:none}
+  .contact.contact-success .form-success{display:block}
   .backup-email{
     margin-top:22px;
     color:var(--grey);
@@ -405,7 +441,7 @@
 
 <header>
   <div class="wrap top">
-    <a class="wordmark" href="#">Venqia</a>
+    <a class="wordmark" href="index.html">Venqia</a>
     <a class="top-cta" href="#contact">Contact partnerships</a>
   </div>
 </header>
@@ -476,9 +512,9 @@
       </div>
       <div class="selector">
         <div class="vtabs" role="tablist" aria-label="Verticals">
-          <button class="vtab" role="tab" aria-selected="true" aria-controls="vd-0" id="vt-0">
+          <a class="vtab" role="tab" aria-selected="true" aria-controls="vd-0" id="vt-0" href="trading-financial-markets.html">
             <span class="num">01</span><span class="name">Trading &amp; financial markets</span><span class="arr">→</span>
-          </button>
+          </a>
           <button class="vtab" role="tab" aria-selected="false" aria-controls="vd-1" id="vt-1">
             <span class="num">02</span><span class="name">iGaming</span><span class="arr">→</span>
           </button>
@@ -625,7 +661,7 @@
     <div class="wrap">
       <h2>Explore a partnership</h2>
       <p class="lead">For acquisition, qualification or partner handoff discussions, send a short note and we'll respond directly.</p>
-      <form class="contact-form" action="mailto:partnerships@venqia.com" method="post" enctype="text/plain">
+      <form class="contact-form" id="partnerForm">
         <div class="field">
           <label for="partner-name">Name</label>
           <input id="partner-name" name="Name" type="text" autocomplete="name" required>
@@ -638,8 +674,19 @@
           <label for="partner-message">Message</label>
           <textarea id="partner-message" name="Message" required></textarea>
         </div>
-        <button class="btn" type="submit">Send partnership inquiry <i>→</i></button>
+        <button class="btn" type="submit">Send partnership inquiry</button>
+        <p id="formStatus" class="form-status" aria-live="polite"></p>
       </form>
+      <div id="formSuccess" class="form-success" aria-live="polite" aria-hidden="true">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="11" stroke="var(--green)" stroke-width="1.5"/>
+            <path d="M7 12.5L10.4 16L17 9" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <h3>Thank you. We’ll be in touch shortly.</h3>
+        <p>Results are on the way.</p>
+      </div>
       <p class="backup-email">Prefer email? <a href="mailto:partnerships@venqia.com">partnerships@venqia.com</a></p>
     </div>
   </section>
@@ -700,6 +747,54 @@
         }
       });
     });
+
+    var partnerForm = document.getElementById('partnerForm');
+    if(partnerForm){
+      var contactSection = partnerForm.closest('.contact');
+      var submitBtn = partnerForm.querySelector('button[type="submit"]');
+      var formStatus = document.getElementById('formStatus');
+      var formSuccess = document.getElementById('formSuccess');
+      var defaultBtnText = 'Send partnership inquiry';
+
+      partnerForm.addEventListener('submit', function(event){
+        event.preventDefault();
+
+        var formData = new FormData(partnerForm);
+        var payload = {
+          source: 'Venqia website',
+          formType: 'Partner inquiry',
+          name: String(formData.get('Name') || ''),
+          email: String(formData.get('Email') || ''),
+          message: String(formData.get('Message') || ''),
+          pageUrl: window.location.href,
+          submittedAt: new Date().toISOString()
+        };
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        if(formStatus) formStatus.textContent = '';
+
+        fetch('https://services.leadconnectorhq.com/hooks/4FNoL5qzSOQJXLKpQqij/webhook-trigger/8e642f85-647b-4402-bf94-f314bbce1a2c', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        })
+          .then(function(res){
+            if(!res.ok) throw new Error('Request failed');
+            if(formStatus) formStatus.textContent = '';
+            if(contactSection) contactSection.classList.add('contact-success');
+            if(formSuccess) formSuccess.setAttribute('aria-hidden', 'false');
+            partnerForm.reset();
+          })
+          .catch(function(){
+            if(formStatus) formStatus.textContent = 'Something went wrong. Please email us directly at partnerships@venqia.com.';
+          })
+          .finally(function(){
+            submitBtn.disabled = false;
+            submitBtn.textContent = defaultBtnText;
+          });
+      });
+    }
   })();
 </script>
 
