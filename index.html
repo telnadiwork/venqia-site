@@ -290,6 +290,27 @@
     color:var(--soft);
   }
   .vdetail .meta b{color:var(--brass);font-weight:400;padding:0 8px}
+  .vdetail-inline{display:none}
+  @media(max-width:899px){
+    .vpanel{display:none}
+    .vdetail-inline{
+      display:block;
+      padding:8px 0 22px 68px;
+      border-bottom:1px solid var(--line);
+    }
+    .vdetail-inline .mono{color:var(--brass);letter-spacing:.22em;display:block;margin-bottom:14px}
+    .vdetail-inline h3{
+      font-family:var(--serif);font-weight:400;font-style:italic;
+      font-size:clamp(21px,5.8vw,28px);letter-spacing:-0.01em;margin-bottom:12px;
+    }
+    .vdetail-inline p{color:var(--grey)}
+    .vdetail-inline .meta{
+      margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+      font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--soft);
+    }
+    .vdetail-inline .meta b{color:var(--brass);font-weight:400;padding:0 8px}
+  }
   @media(min-width:900px){
     .vpanel{border-left:1px solid var(--line);padding-left:56px;min-height:300px}
   }
@@ -384,7 +405,9 @@
   .ownership-card li:last-child{border-bottom:none}
 
   .intake{padding:120px 0;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(14,77,58,.03),transparent 50%)}
+  .intake h2{margin-bottom:32px}
   .intake-grid{display:grid;gap:24px}
+  @media(max-width:899px){.intake h2{margin-bottom:24px}}
   @media(min-width:900px){.intake-grid{grid-template-columns:1fr 1fr}}
   .intake-card{border:1px solid var(--line);padding:24px;background:#fff}
   .intake-card h3{font-size:24px;letter-spacing:-0.02em;line-height:1.2;margin-bottom:10px}
@@ -579,6 +602,7 @@
           <button class="vtab" role="tab" aria-selected="true" aria-controls="vd-0" id="vt-0">
             <span class="num">01</span><span class="name">Trading &amp; financial markets</span><span class="arr">→</span>
           </button>
+          <div id="vdetail-inline" class="vdetail-inline" aria-live="polite"></div>
           <button class="vtab" role="tab" aria-selected="false" aria-controls="vd-1" id="vt-1">
             <span class="num">02</span><span class="name">iGaming</span><span class="arr">→</span>
           </button>
@@ -742,7 +766,7 @@
 
   <section class="intake">
     <div class="wrap">
-      <h2>Before you contact us.</h2>
+      <h2>Before we engage.</h2>
       <div class="intake-grid">
         <article class="intake-card">
           <h3>Who this is for</h3>
@@ -817,6 +841,7 @@
   (function(){
     var tabs = Array.prototype.slice.call(document.querySelectorAll('.vtab'));
     var panels = Array.prototype.slice.call(document.querySelectorAll('.vdetail'));
+    var inlineDetail = document.getElementById('vdetail-inline');
 
     function select(idx){
       tabs.forEach(function(t,i){
@@ -833,6 +858,11 @@
           p.hidden = true;
         }
       });
+
+      if(inlineDetail && tabs[idx] && panels[idx]){
+        inlineDetail.innerHTML = panels[idx].innerHTML;
+        tabs[idx].insertAdjacentElement('afterend', inlineDetail);
+      }
     }
 
     tabs.forEach(function(t,i){
@@ -844,6 +874,7 @@
         if(next !== null){ e.preventDefault(); tabs[next].focus(); select(next); }
       });
     });
+    select(0);
     // Smooth in-page anchors (works even inside sandboxed previews)
     document.querySelectorAll('a[href^="#"]').forEach(function(a){
       a.addEventListener('click', function(e){
