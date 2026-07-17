@@ -100,6 +100,7 @@
     display:inline-flex;align-items:center;gap:10px;
     background:var(--green);color:#fff;
     padding:14px 24px;font-size:14.8px;font-weight:650;
+    border-radius:999px;
     transition:background .18s;
   }
   .btn:hover{background:var(--green-deep)}
@@ -126,11 +127,41 @@
   .flow-track{position:absolute;left:28px;right:28px;top:108px;height:1px;background:var(--line)}
   .flow-track::after{content:"";position:absolute;left:0;top:0;width:100%;height:1px;background:linear-gradient(90deg,var(--green),var(--brass));opacity:.9}
   .flow-steps{display:flex;justify-content:space-between;gap:10px;position:relative}
-  .fnode{max-width:124px}
+  .fnode{max-width:124px;position:relative}
   .fnode::before{content:"";display:block;width:11px;height:11px;border-radius:50%;border:1.5px solid var(--green);background:var(--paper);margin-bottom:74px}
-  .fnode:last-child::before{background:var(--green)}
+  .fnode::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 4px rgba(14,77,58,.10),0 0 10px rgba(14,77,58,.18);
+    opacity:0;
+    transform:scale(.84);
+    animation:journeyDotActive 6s ease-in-out infinite;
+    will-change:transform,opacity,box-shadow;
+    pointer-events:none;
+  }
+  .fnode:nth-child(1)::after{animation-delay:0s}
+  .fnode:nth-child(2)::after{animation-delay:1.5s}
+  .fnode:nth-child(3)::after{animation-delay:3s}
+  .fnode:nth-child(4)::after{animation-delay:4.5s}
+  @keyframes journeyDotActive{
+    0%{opacity:0;transform:scale(.84);box-shadow:0 0 0 0 rgba(14,77,58,0)}
+    8%{opacity:.96;transform:scale(1.05);box-shadow:0 0 0 4px rgba(14,77,58,.12),0 0 12px rgba(14,77,58,.20)}
+    15%{opacity:.88;transform:scale(1);box-shadow:0 0 0 3px rgba(14,77,58,.10),0 0 10px rgba(14,77,58,.16)}
+    22%{opacity:0;transform:scale(.9);box-shadow:0 0 0 0 rgba(14,77,58,0)}
+    100%{opacity:0;transform:scale(.84);box-shadow:0 0 0 0 rgba(14,77,58,0)}
+  }
   .fnode b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:500}
   .fnode small{display:block;margin-top:7px;font-size:12.5px;color:var(--soft);line-height:1.45}
+  @media(prefers-reduced-motion:reduce){
+    .fnode::after{animation:none;opacity:0}
+    .fnode:last-child::before{background:var(--green)}
+  }
   @media(max-width:760px){
     .flow-visual{min-height:auto;padding:18px}
     .flow-track{display:none}
